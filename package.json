@@ -1,7 +1,7 @@
 {
   "name": "pi-transcript-enhancer",
   "version": "0.1.0",
-  "description": "Step highlights for Pi transcripts",
+  "description": "Custom phrase highlighting for Pi transcripts",
   "type": "module",
   "peerDependencies": {
     "@earendil-works/pi-coding-agent": "*",

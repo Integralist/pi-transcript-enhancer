@@ -7,7 +7,7 @@ import {
 	transformAssistantMarkdown,
 } from "./matcher.mjs";
 
-const CONFIG_URL = new URL("../../step-highlight.json", import.meta.url);
+const CONFIG_URL = new URL("../../transcript-highlights.json", import.meta.url);
 const GOLD_TRUECOLOR_BG = "\x1b[48;2;184;134;11m";
 const GOLD_256_BG = "\x1b[48;5;136m";
 const BLACK_TRUECOLOR_FG = "\x1b[38;2;0;0;0m";

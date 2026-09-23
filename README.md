@@ -1,15 +1,19 @@
-# Step highlights for Pi
+# Pi Transcript Enhancer
 
-This project extension displays matching progress lines in ordered deep-gold
-blocks with black text. Other assistant Markdown stays in sequence around them.
-The original assistant message remains unchanged and is the only content sent to
-the model.
+This extension highlights assistant progress lines that match configured
+phrases, rendering them in ordered deep-gold blocks with black text. Other
+assistant Markdown stays in sequence around them. The original assistant
+message remains unchanged and is the only content sent to the model.
 
-![Pi showing blue prompts and ordered gold Step highlights.](assets/step-highlight-demo.png)
+![Pi showing blue prompts and gold transcript highlights.](assets/step-highlight-demo.png)
 
 ## Configure
 
-Edit `.pi/step-highlight.json`:
+Edit `.pi/transcript-highlights.json` in this checkout. After a global install
+with `pi install git:github.com/Integralist/pi-transcript-enhancer`, edit that
+file in the installed checkout. With the default agent directory, the checkout
+is `~/.pi/agent/git/github.com/Integralist/pi-transcript-enhancer/`. If
+`PI_CODING_AGENT_DIR` is set, replace `~/.pi/agent` with its value.
 
 ```json
 {
