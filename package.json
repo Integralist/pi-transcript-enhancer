@@ -1,0 +1,15 @@
+{
+  "name": "pi-transcript-enhancer",
+  "version": "0.1.0",
+  "description": "Step highlights for Pi transcripts",
+  "type": "module",
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*",
+    "@earendil-works/pi-tui": "*"
+  },
+  "pi": {
+    "extensions": [
+      "./.pi/extensions/step-highlight/index.ts"
+    ]
+  }
+}
