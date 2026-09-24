@@ -26,6 +26,12 @@ function lineWithoutCR(line) {
 	return line.endsWith("\r") ? line.slice(0, -1) : line;
 }
 
+function normalizeProgressLine(line) {
+	const candidate = line.replace(/^ {1,3}/, "");
+	const emphasized = /^(?:\*\*(.+)\*\*|__(.+)__|\*(.+)\*|_(.+)_)$/.exec(candidate.trimEnd());
+	return emphasized ? (emphasized[1] ?? emphasized[2] ?? emphasized[3] ?? emphasized[4]) : candidate;
+}
+
 function startsFence(line) {
 	const match = FENCE.exec(line);
 	if (!match || (match[1][0] === "`" && match[2].includes("`"))) {
@@ -118,7 +124,7 @@ function classifyLines(markdown, phrases, isStreaming) {
 		if (/^(?: {4,}|\t)/.test(line)) continue;
 		if (interruptsLazyContinuation(line)) continue;
 
-		const candidateLine = line.replace(/^ {1,3}/, "");
+		const candidateLine = normalizeProgressLine(line);
 		if (phrases.some((phrase) => progressSuffix(candidateLine, phrase) !== undefined)) {
 			hidden.add(index);
 			continue;
@@ -137,7 +143,7 @@ export function findHighlightLines(markdown, phrases = DEFAULT_PHRASES) {
 	const hidden = classifyLines(markdown, phrases, false);
 	return lines
 		.filter((_line, index) => hidden.has(index))
-		.map((line) => lineWithoutCR(line).replace(/^ {1,3}/, ""));
+		.map((line) => normalizeProgressLine(lineWithoutCR(line)));
 }
 
 export function transformAssistantMarkdown(markdown, context, phrases = DEFAULT_PHRASES) {
@@ -173,7 +179,7 @@ function splitDisplaySegments(markdown, phrases) {
 		}
 
 		flushNormal();
-		segments.push({ highlighted: true, text: lineWithoutCR(rawLine).replace(/^ {1,3}/, "") });
+		segments.push({ highlighted: true, text: normalizeProgressLine(lineWithoutCR(rawLine)) });
 	}
 	flushNormal();
 	return segments;

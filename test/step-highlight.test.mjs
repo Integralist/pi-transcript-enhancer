@@ -35,6 +35,35 @@ test("finds several matches and preserves their order", () => {
 	);
 });
 
+test("matches whole-line Markdown emphasis and displays clean highlight text", () => {
+	const emphasized = [
+		`**${match}**`,
+		`__Step 2/3: Write tests__`,
+		`*Step 3/3: Verify output*`,
+		`_Step 4/4: Finish_`,
+	].join("\n");
+
+	assert.deepEqual(findHighlightLines(emphasized), [
+		match,
+		"Step 2/3: Write tests",
+		"Step 3/3: Verify output",
+		"Step 4/4: Finish",
+	]);
+	assert.equal(
+		transformAssistantMarkdown(emphasized, { messageType: "assistant", isStreaming: false }),
+		"",
+	);
+	assert.deepEqual(
+		createDisplayEntryDrafts({ role: "assistant", content: [{ type: "text", text: emphasized }] }),
+		[
+			{ type: "custom", customType: "step-highlight", data: { text: match } },
+			{ type: "custom", customType: "step-highlight", data: { text: "Step 2/3: Write tests" } },
+			{ type: "custom", customType: "step-highlight", data: { text: "Step 3/3: Verify output" } },
+			{ type: "custom", customType: "step-highlight", data: { text: "Step 4/4: Finish" } },
+		],
+	);
+});
+
 test("handles CRLF without including carriage returns in highlight text", () => {
 	assert.deepEqual(findHighlightLines(`${match}\r\nStep 2/3: Write tests`), [
 		match,
